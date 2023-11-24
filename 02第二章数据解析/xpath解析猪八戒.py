@@ -8,7 +8,7 @@ resp.encoding = 'utf-8'
 
 et = etree.HTML(resp.text)
 # search-result-list-service
-divs = et.xpath("//div[@class='service-card-wrap']/div")
+divs = et.xpath("div[@class='service-card-wrap']/div")
 for div in divs:
     # 此时div对应一个商品信息
     price = div.xpath("./div[@class='bot-content']/div[@class='price']/span/text()")[0]
