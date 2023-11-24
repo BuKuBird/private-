@@ -1,11 +1,14 @@
 import requests
-
+import lxml
+# 改进：爬取网页的十八个视频
+ # 思路：1、在梨视频首页找到各个视频的入口（把所有的url一次性提取出来）
+ #      2、编写一个摘取视频的函数，传入参数可以是contid
 # 注意在创建连接的时候不能开代理，不然会报错
 
-
+videoname  = ""
 contId = 1789267
 url1 = "https://www.pearvideo.com/video_1789267"
-url = f"https://www.pearvideo.com/videoStatus.jsp?contId=1789267&mrd=0.6269419464271935"
+url = f"https://www.pearvideo.com/videoStatus.jsp?contId='{contId}'&mrd=0.6269419464271935"
 print(url)
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0",
@@ -29,16 +32,22 @@ def socketor(url, charset):
 # 获得的url
 # https://video.pearvideo.com/mp4/short/20231115/ 1700793758721-16008473-hd.mp4
 
-resp = socketor(url, "utf-8")
-dic = resp.json()
-srcUrl = str(resp.json()["videoInfo"]["videos"]["srcUrl"])
 
-systemTime = dic["systemTime"]
-inst = srcUrl.split(f"{systemTime}")
+
+
 # print(inst[0])
 # ['https://video.pearvideo.com/mp4/short/20231115/', '-16008473-hd.mp4']
-provideosrc = inst[0] + f'cont-{1789267}' + inst[1]
+
 # print(provideosrc)
 # print(srcUrl)
-with open("1.mp4",mode="wb") as f: # 在wb模式下不能用encoding
-    f.write(requests.get(provideosrc).content)
+
+# 编写一个直接获取mp4的方法
+def getMp4(url,charset,contId,videoname):
+    resp = socketor(url, charset)
+    dic = resp.json()
+    srcurl = str(resp.json()["videoInfo"]["videos"]["srcUrl"])
+    systemtime = dic["systemTime"]
+    inst = srcurl.split(f"{systemtime}")
+    provideosrc = inst[0] + f'cont-{contId}' + inst[1]
+    with open(f"{videoname}.mp4", mode="wb") as f:  # 在wb模式下不能用encoding
+        f.write(requests.get(provideosrc).content)
