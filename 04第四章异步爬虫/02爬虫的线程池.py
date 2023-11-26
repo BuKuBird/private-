@@ -8,7 +8,7 @@ def func(name, t):
 def fn(res):
     print(res.result())
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
     # with ThreadPoolExecutor(3) as t:
     #     t.submit(func, "周杰伦", 2).add_done_callback(fn)
     #     t.submit(func, "王力宏", 1).add_done_callback(fn)
