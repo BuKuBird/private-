@@ -16,3 +16,18 @@
 
 
 """
+import asyncio
+# 协程的基本语法
+async def func():
+    print("我是函数")
+
+
+
+if __name__ == '__main__':
+    # 协程对象想要执行必须借助于工event_loop(事件循环)
+    # result = func() # result 是一个协程对象
+    # event_loop = asyncio.get_event_loop()
+    # event_loop.run_until_complete(result)# 传入一个携程对象，到结束为止
+
+    # 也可以直接用asyncio.run(func())
+    asyncio.run(func())
